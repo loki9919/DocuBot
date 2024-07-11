@@ -26,12 +26,13 @@ To install the ALXGPT Chat App, please follow these steps:
    cd ALXGPT
 
 2. Install the required dependencies by running the following command:
-   
+   ```bash
    pip install -r requirements.txt
    
 
 3. Obtain an API key from OpenAI and also for Llamaparser add it to the .env file in the project directory.
 commandline
+```bash
 OPENAI_API_KEY=your_secrit_api_key
 LLAMA_CLOUD_API_KEY=yout_secrit_api_key
 
@@ -43,7 +44,7 @@ To use the ALXGPT Chat App, follow these steps:
 1. Ensure that you have installed the required dependencies and add your keys to .env file.
 
 2. Run the app.py file using the Streamlit CLI. Execute the following command:
-   
+   ```bash
    streamlit run app.py
    
 

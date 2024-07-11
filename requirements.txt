@@ -1,0 +1,6 @@
+streamlit
+llama_parse
+python-dotenv
+langchain
+langchain_community
+langchain_openai

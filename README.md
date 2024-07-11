@@ -32,10 +32,9 @@ To install the ALXGPT Chat App, please follow these steps:
 
 3. Obtain an API key from OpenAI and also for Llamaparser add it to the .env file in the project directory.
 commandline
-```bash
-OPENAI_API_KEY=your_secrit_api_key
-LLAMA_CLOUD_API_KEY=yout_secrit_api_key
-
+    ```bash
+    OPENAI_API_KEY=your_secrit_api_key
+    LLAMA_CLOUD_API_KEY=yout_secrit_api_key
 
 ## Usage
 -----

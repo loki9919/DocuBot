@@ -1,0 +1,33 @@
+Duration of Outage: 06/25/2024, 2:00 PM - 4:00 PM
+
+Impact: Our beloved "Chat with Your Own PDF" service took an unexpected nap for 2 hours. Users were left staring at their screens, unable to upload or chat with their PDFs. About 90% of our users were affected, and the rest were probably just as confused.
+
+Root Cause: A server misconfiguration caused a memory overflow, leading to our system taking a brief siesta.
+
+Timeline
+(Imagine a funny cartoon here of a sleepy server with a pillow.)
+
+| Time     | Event                                                                                   |
+|----------|-----------------------------------------------------------------------------------------|
+| 2:00 PM  | Our monitoring alert woke us up from our peaceful coding session with high error rates. |
+| 2:05 PM  | On-call engineer investigates and confirms that the service is indeed snoring.           |
+| 2:15 PM  | Suspected a recent deployment was the culprit, so we rolled it back.                     |
+| 2:30 PM  | Rollback didn't work. Our server was still dreaming of electric sheep. Escalated the incident. |
+| 2:45 PM  | Backend team dives into the server logs and metrics.                                     |
+| 3:00 PM  | Eureka! Discovered the server was configured with insufficient memory limits.            |
+| 3:30 PM  | Tweaked the server settings to wake it up.                                                |
+| 4:00 PM  | Service restored, and the server is back to work, wide awake and caffeinated.             |
+
+Root Cause and Resolution
+Root Cause: Our server was like a toddler at a birthday party—overexcited and crashing hard. It was configured with insufficient memory limits, and when the workload increased, it ran out of memory and fell asleep.
+
+Resolution: We adjusted the server configuration, increasing the memory limits to ensure it can handle peak loads without dozing off.
+
+Corrective and Preventative Measures
+Improvements/Fixes:
+
+1. Server Configuration: Review and adjust server memory settings to avoid future sleepovers.
+2. Monitoring: Enhance monitoring to catch memory usage spikes before they turn into naps.
+3. Testing: Implement load testing to simulate high-usage scenarios and ensure our server stays awake.
+
+Task List:

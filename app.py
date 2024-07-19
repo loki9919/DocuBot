@@ -1,4 +1,4 @@
-# Import necessary modules
+# modules
 import streamlit as st
 import os
 from llama_parse import LlamaParse

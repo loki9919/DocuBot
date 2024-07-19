@@ -1,6 +1,6 @@
 ## Introduction
 ------------
-The ALXGPT Chat App is a Python application that allows you to chat with your own PDF documents. One can ask questions about the PDFs using natural language, and the application will provide relevant responses based on the content of the documents. This app utilizes a language model to generate accurate answers to your queries. Please note that the app will only respond to questions related to the loaded PDFs.
+The TalkToPDF Chat App is a Python application that allows you to chat with your own PDF documents. One can ask questions about the PDFs using natural language, and the application will provide relevant responses based on the content of the documents. This app utilizes a language model to generate accurate answers to your queries. Please note that the app will only respond to questions related to the loaded PDFs.
 
 ## How It Works
 ------------
@@ -22,8 +22,8 @@ To install the ALXGPT Chat App, please follow these steps:
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/loki9919/ALXGPT.git
-   cd ALXGPT
+   git clone https://github.com/loki9919/TalkToPDF.git
+   cd TalkToPDF
 
 2. Install the required dependencies by running the following command:
    ```bash
@@ -55,4 +55,4 @@ To use the ALXGPT Chat App, follow these steps:
 
 ## License
 -------
-The ALXGPT Chat App is released under the [MIT License](https://opensource.org/licenses/MIT).
+The TalkToPDF Chat App is released under the [MIT License](https://opensource.org/licenses/MIT).

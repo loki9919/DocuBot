@@ -1,0 +1,25 @@
+# Python specific ignores
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+
+# JavaScript specific ignores
+node_modules/
+dist/
+build/
+
+# Ignore IDE specific files
+.vscode/
+.idea/
+
+# Log files
+*.log
+
+# System files
+.DS_Store
+
+alxgpt

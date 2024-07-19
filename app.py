@@ -23,12 +23,12 @@ from langchain_community.llms import Ollama
 load_dotenv()
 
 # Everything is accessible via the st.secrets dict:
-st.write("Parsing api key:", st.secrets["LLAMA_CLOUD_API_KEY"])
+st.write("Parsing api key:", os.getenv["LLAMA_CLOUD_API_KEY"])
 
 # And the root-level secrets are also accessible as environment variables:
 st.write(
     "Has environment variables been set:",
-    os.environ["OLLAMA_HOST"] == st.secrets["OLLAMA_HOST"],
+    os.environ["OLLAMA_HOST"] == os.getenv["OLLAMA_HOST"],
 )
 
 

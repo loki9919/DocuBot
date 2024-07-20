@@ -218,12 +218,12 @@ def main():
     st.set_page_config(page_title="TalkToPDF", page_icon=":books:", layout="wide")
     st.write(css, unsafe_allow_html=True)
     # Everything is accessible via the st.secrets dict:
-    st.write("Parsing api key:", st.secrets["LLAMA_CLOUD_API_KEY"])
+    # st.write("Parsing api key:", st.secrets["LLAMA_CLOUD_API_KEY"])
 
     # And the root-level secrets are also accessible as environment variables:
-    st.write(
-    "Has environment variables been set:",
-    os.environ["OLLAMA_HOST"] == st.secrets["OLLAMA_HOST"])
+    # st.write(
+    # "Has environment variables been set:",
+    # os.environ["OLLAMA_HOST"] == st.secrets["OLLAMA_HOST"])
 
     if "conversation" not in st.session_state:
         st.session_state.conversation = None

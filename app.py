@@ -22,15 +22,6 @@ from langchain_community.llms import Ollama
 # load env's vars from .env
 load_dotenv()
 
-# Everything is accessible via the st.secrets dict:
-st.write("Parsing api key:", st.secrets["LLAMA_CLOUD_API_KEY"])
-
-# And the root-level secrets are also accessible as environment variables:
-st.write(
-    "Has environment variables been set:",
-    os.environ["OLLAMA_HOST"] == st.secrets["OLLAMA_HOST"],
-)
-
 
 # OpenAI Endpoint details - to be set in .env ------------------------------
 LLAMA_CLOUD_API_KEY = os.getenv("LLAMA_CLOUD_API_KEY")
@@ -226,6 +217,13 @@ def main():
     load_dotenv()
     st.set_page_config(page_title="TalkToPDF", page_icon=":books:", layout="wide")
     st.write(css, unsafe_allow_html=True)
+    # Everything is accessible via the st.secrets dict:
+    st.write("Parsing api key:", st.secrets["LLAMA_CLOUD_API_KEY"])
+
+    # And the root-level secrets are also accessible as environment variables:
+    st.write(
+    "Has environment variables been set:",
+    os.environ["OLLAMA_HOST"] == st.secrets["OLLAMA_HOST"])
 
     if "conversation" not in st.session_state:
         st.session_state.conversation = None

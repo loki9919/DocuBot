@@ -121,7 +121,7 @@ def ingest_into_vectordb(split_docs):
 def get_conversation_chain(vectordb):
     # using openai services
     # llama_llm = ChatOpenAI()
-    llama_llm = Ollama(model="llama3", base_url="http://34.68.73.237:11434")
+    llama_llm = Ollama(model="llama3", base_url="http://34.71.171.183:11434/")
     retriever = vectordb.as_retriever()
     prompt = PromptTemplate.from_template(llmtemplate)
     memory = ConversationBufferMemory(

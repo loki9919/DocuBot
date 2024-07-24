@@ -14,18 +14,13 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.chat_models import ChatOpenAI
-from langchain_openai import OpenAIEmbeddings
-#from langchain.chat_models import ChatOpenAI
 from langchain_community.llms import Ollama
 
 # load env's vars from .env
 load_dotenv()
 
 
-# OpenAI Endpoint details - to be set in .env ------------------------------
 LLAMA_CLOUD_API_KEY = os.getenv("LLAMA_CLOUD_API_KEY")
-OPENAI_API_KEY=os.getenv("OPENAI_API_KEY")
 # --------------------------------------------------------------------------
 
 
@@ -59,7 +54,6 @@ def prepare_docs(pdf):
     parser = LlamaParse(
         api_key=LLAMA_CLOUD_API_KEY,
         result_type="markdown",
-        # num_workers=4,
         verbose=True,
         language="en",
     )
@@ -119,8 +113,6 @@ def ingest_into_vectordb(split_docs):
 
 # Conversation!
 def get_conversation_chain(vectordb):
-    # using openai services
-    # llama_llm = ChatOpenAI()
     llama_llm = Ollama(model="llama3", base_url="http://34.71.171.183:11434/")
     retriever = vectordb.as_retriever()
     prompt = PromptTemplate.from_template(llmtemplate)
@@ -146,11 +138,7 @@ def handle_userinput(user_question):
     """
     response = st.session_state.conversation({"question": user_question})
     st.session_state.chat_history = response["chat_history"]
-    # sources = [doc.metadata for doc in response["source_documents"]]
-    # -------------------- SOURCE ----------------------
-    # st.write("Sources:")
-    # for i, source in enumerate(sources):
-    #     st.markdown(f"• Source {i+1}: {source}")
+    
     for i, message in enumerate(st.session_state.chat_history):
         print(i)
         if i % 2 == 0:
@@ -176,17 +164,17 @@ def feature_section():
     features = [
         {
             "name": "PDF Upload and Processing",
-            "image": "images/pdf_upload.png",  # Replace with actual image path
+            "image": "images/pdf_upload.png",
             "description": "Easily upload your PDF documents for processing. The app extracts and processes the content for further analysis."
         },
         {
             "name": "Interactive Question-Answering",
-            "image": "images/question_answer.png",  # Replace with actual image path
+            "image": "images/question_answer.png",
             "description": "Ask questions about your documents and receive accurate answers based on the content. Interact with your PDFs using natural language."
         },
         {
             "name": "Accurate Document Analysis",
-            "image": "images/document_analysis.png",  # Replace with actual image path
+            "image": "images/document_analysis.png",
             "description": "Benefit from precise and reliable analysis of your PDF documents, ensuring that you get the information you need."
         },
     ]
@@ -217,13 +205,6 @@ def main():
     load_dotenv()
     st.set_page_config(page_title="TalkToPDF", page_icon=":books:", layout="wide")
     st.write(css, unsafe_allow_html=True)
-    # Everything is accessible via the st.secrets dict:
-    # st.write("Parsing api key:", st.secrets["LLAMA_CLOUD_API_KEY"])
-
-    # And the root-level secrets are also accessible as environment variables:
-    # st.write(
-    # "Has environment variables been set:",
-    # os.environ["OLLAMA_HOST"] == st.secrets["OLLAMA_HOST"])
 
     if "conversation" not in st.session_state:
         st.session_state.conversation = None
@@ -253,10 +234,6 @@ def main():
             handle_userinput(user_question)
 
         with st.sidebar:
-            # st.write(split_docs)
-            # st.write(content)
-            # st.write(split_docs)
-            # st.write(st.session_state)
             st.subheader("Your documents")
             pdf_docs = st.file_uploader(
                 "Upload your PDFs here and click on 'Process'", accept_multiple_files=True

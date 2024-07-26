@@ -1,4 +1,4 @@
-# modules
+# File: app.py
 import streamlit as st
 import os
 from llama_parse import LlamaParse
@@ -14,15 +14,15 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
-from langchain_community.llms import Ollama
 
-# load env's vars from .env
+# Load environment variables from .env
 load_dotenv()
 
-
 LLAMA_CLOUD_API_KEY = os.getenv("LLAMA_CLOUD_API_KEY")
-# --------------------------------------------------------------------------
 
+# Create media directory if it doesn't exist
+MEDIA_DIR = os.path.join(os.getcwd(), 'media')
+os.makedirs(MEDIA_DIR, exist_ok=True)
 
 # Configure the system prompt
 llmtemplate = """[INST]
@@ -43,10 +43,8 @@ Question: {question}
 [/INST]
 """
 
-
-
-# Data extraction!
-def prepare_docs(pdf):
+# Data extraction
+def prepare_docs(pdf_files):
     """
     Llama Parse API to extract the content and metadata from the PDF files.
     To fix the document used in the chat the extracted content and metadata are then written to separate files in the script directory.
@@ -57,20 +55,18 @@ def prepare_docs(pdf):
         verbose=True,
         language="en",
     )
-    for doc in pdf:
-        documents = parser.load_data(doc.name)
+    contents = []
+    for pdf in pdf_files:
+        file_path = os.path.join(MEDIA_DIR, pdf.name)
+        with open(file_path, "wb") as f:
+            f.write(pdf.getbuffer())
+        documents = parser.load_data(file_path)
+        contents.append(documents[0].text)
+        print(documents[0].text)
 
-    content = documents[0].text
-    print(content)
-    script_dir = os.path.dirname(__file__)
+    return "\n\n".join(contents)
 
-    file_path = os.path.join(script_dir, "content.txt")
-    with open(file_path, "w") as f:
-        f.write(content)
-
-    return content
-
-# Chunki the documents
+# Chunking the documents
 def get_text_chunks(content):
     """
     Chunking component, using MarkdownHeaderSplitter and the RecursiveCharacterTextSplitter from Langchain
@@ -94,7 +90,6 @@ def get_text_chunks(content):
     print(f"Split documents into {len(split_docs)} passages")
     return split_docs
 
-
 # Ingest data
 def ingest_into_vectordb(split_docs):
     """
@@ -110,8 +105,7 @@ def ingest_into_vectordb(split_docs):
     print(f"Vector db is ready!")
     return db
 
-
-# Conversation!
+# Conversation
 def get_conversation_chain(vectordb):
     llama_llm = Ollama(model="llama3", base_url="http://34.71.171.183:11434/")
     retriever = vectordb.as_retriever()
@@ -126,15 +120,14 @@ def get_conversation_chain(vectordb):
         memory=memory,
         return_source_documents=True,
         verbose=True,
-        rephrase_question=False,  # huge problem
+        rephrase_question=False,
     )
     print("Conversational Chain created for the LLM using the vector store")
     return conversation_chain
 
-
 def handle_userinput(user_question):
     """
-    Handle the userinput!
+    Handle the user input
     """
     response = st.session_state.conversation({"question": user_question})
     st.session_state.chat_history = response["chat_history"]
@@ -156,7 +149,6 @@ def intro_section():
     st.title("TalkToPDF :books:")
     st.image("https://wgmimedia.com/wp-content/uploads/2023/05/How-to-Talk-to-a-PDF-With-AI.jpg", use_column_width=True)
     st.write("Imagine effortlessly navigating through your PDF documents as if you were having a conversation. With TalkToPDF, you can now interact with your documents using natural language queries. Simply ask questions about the content, and receive detailed, contextually relevant answers directly from the document. This innovative approach transforms static PDFs into dynamic, responsive tools that enhance your understanding and streamline your workflow.")
-
 
 def feature_section():
     st.header("Key Features")
@@ -242,11 +234,11 @@ def main():
                 with st.spinner("Processing"):
                     content = prepare_docs(pdf_docs)
                     st.write(content)
-                    # get the text chunks
+                    # Get the text chunks
                     split_docs = get_text_chunks(content)
-                    # create vector store
+                    # Create vector store
                     vectorstore = ingest_into_vectordb(split_docs)
-                    # create conversation chain
+                    # Create conversation chain
                     st.session_state.conversation = get_conversation_chain(vectorstore)
 
 if __name__ == "__main__":

@@ -146,9 +146,9 @@ def handle_userinput(user_question):
             )
 
 def intro_section():
-    st.title("TalkToPDF :books:")
+    st.title("DocuBot :books:")
     st.image("https://wgmimedia.com/wp-content/uploads/2023/05/How-to-Talk-to-a-PDF-With-AI.jpg", use_column_width=True)
-    st.write("Imagine effortlessly navigating through your PDF documents as if you were having a conversation. With TalkToPDF, you can now interact with your documents using natural language queries. Simply ask questions about the content, and receive detailed, contextually relevant answers directly from the document. This innovative approach transforms static PDFs into dynamic, responsive tools that enhance your understanding and streamline your workflow.")
+    st.write("Imagine effortlessly navigating through your PDF documents as if you were having a conversation. With DocuBot, you can now interact with your documents using natural language queries. Simply ask questions about the content, and receive detailed, contextually relevant answers directly from the document. This innovative approach transforms static PDFs into dynamic, responsive tools that enhance your understanding and streamline your workflow.")
 
 def feature_section():
     st.header("Key Features")
@@ -179,23 +179,23 @@ def feature_section():
 def about_section():
     st.header("About the Project")
     st.write("""
-    The inspiration for the TalkToPDF project emerged from observing the transformative impact of AI across various domains. With AI becoming a ubiquitous presence, revolutionizing everything from customer service to creative arts, I was driven to explore how it could enhance one of the most ubiquitous and often overlooked tools in our daily lives: PDF documents.
+    The inspiration for the DocuBot project emerged from observing the transformative impact of AI across various domains. With AI becoming a ubiquitous presence, revolutionizing everything from customer service to creative arts, I was driven to explore how it could enhance one of the most ubiquitous and often overlooked tools in our daily lives: PDF documents.
 
     As I delved into this vision, I realized that while AI was making waves in areas like language translation and image recognition, PDFs remained static and largely unresponsive. The idea of making PDFs interactive and more accessible began to take shape. I envisioned a tool that would not only allow users to navigate through their documents more intuitively but also engage with the content in a meaningful way.
 
     This led me to conduct extensive research on integrating AI with PDF technologies. I explored various natural language processing techniques and machine learning models, aiming to develop a solution where users could interact with their documents as if they were having a conversation. The goal was clear: to create a tool that could understand questions about the content and provide insightful, detailed answers, thereby transforming the way people interact with their documents.
 
-    The journey was both challenging and exhilarating. It required not just technical expertise but also a deep understanding of user needs and behaviors. The result is TalkToPDF—a project born from the convergence of AI advancements and the quest for a more interactive, user-friendly document experience. By harnessing the power of AI, TalkToPDF aims to enhance productivity and understanding, making every PDF a dynamic resource rather than a static file.
+    The journey was both challenging and exhilarating. It required not just technical expertise but also a deep understanding of user needs and behaviors. The result is DocuBot—a project born from the convergence of AI advancements and the quest for a more interactive, user-friendly document experience. By harnessing the power of AI, DocuBot aims to enhance productivity and understanding, making every PDF a dynamic resource rather than a static file.
     
     This project is part of my portfolio for Holberton School. You can find the links to my profiles and the project repository below:
     """)
     st.write("[LinkedIn](https://www.linkedin.com/in/lokmane-rouijel/)")
     st.write("[GitHub](https://github.com/loki9919)")
-    st.write("[Project Repository](https://github.com/loki9919/TalkToPDF)")
+    st.write("[Project Repository](https://github.com/loki9919/DocuBot)")
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="TalkToPDF", page_icon=":books:", layout="wide")
+    st.set_page_config(page_title="DocuBot", page_icon=":books:", layout="wide")
     st.write(css, unsafe_allow_html=True)
 
     if "conversation" not in st.session_state:
@@ -206,7 +206,7 @@ def main():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "Intro"
 
-    pages = ["Intro", "Features", "About", "TalkToPDF"]
+    pages = ["Intro", "Features", "About", "DocuBot"]
     selected_page = st.sidebar.selectbox("Navigate", pages)
 
     if selected_page:
@@ -218,8 +218,8 @@ def main():
         feature_section()
     elif st.session_state.current_page == "About":
         about_section()
-    elif st.session_state.current_page == "TalkToPDF":
-        st.header("TalkToPDF 📚")
+    elif st.session_state.current_page == "DocuBot":
+        st.header("DocuBot 📚")
         user_question = st.text_input("Ask a question about your documents")
 
         if user_question:

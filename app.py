@@ -220,7 +220,7 @@ def main():
         about_section()
     elif st.session_state.current_page == "DocuBot":
         st.header("DocuBot 📚")
-        user_question = st.text_input("Ask a question about your documents. Please be patient because the LLM is hosted on a CPU. ")
+        user_question = st.text_input("Ask a question about your documents. Please be patient because the LLM is running on a CPU. ")
 
         if user_question:
             handle_userinput(user_question)

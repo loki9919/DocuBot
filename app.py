@@ -161,12 +161,12 @@ def feature_section():
         },
         {
             "name": "Interactive Question-Answering",
-            "image": "images/question_answer.png",
+            "image": "images/document_analysis.png",
             "description": "Ask questions about your documents and receive accurate answers based on the content. Interact with your PDFs using natural language."
         },
         {
             "name": "Accurate Document Analysis",
-            "image": "images/document_analysis.png",
+            "image": "images/question_ansewr.png",
             "description": "Benefit from precise and reliable analysis of your PDF documents, ensuring that you get the information you need."
         },
     ]
@@ -195,7 +195,7 @@ def about_section():
 
 def main():
     load_dotenv()
-    st.set_page_config(page_title="DocuBot", page_icon=":books:", layout="wide")
+    st.set_page_config(page_title="DocuBot", page_icon="images/logo.png", layout="wide")
     st.write(css, unsafe_allow_html=True)
 
     if "conversation" not in st.session_state:
@@ -220,7 +220,7 @@ def main():
         about_section()
     elif st.session_state.current_page == "DocuBot":
         st.header("DocuBot 📚")
-        user_question = st.text_input("Ask a question about your documents")
+        user_question = st.text_input("Ask a question about your documents. Please be patient because the LLM is hosted on a CPU. ")
 
         if user_question:
             handle_userinput(user_question)
@@ -230,10 +230,9 @@ def main():
             pdf_docs = st.file_uploader(
                 "Upload your PDFs here and click on 'Process'", accept_multiple_files=True
             )
-            if st.button("Process"):
+            if pdf_docs:
                 with st.spinner("Processing"):
                     content = prepare_docs(pdf_docs)
-                    st.write(content)
                     # Get the text chunks
                     split_docs = get_text_chunks(content)
                     # Create vector store

@@ -28,7 +28,7 @@ css = '''
 bot_template = '''
 <div class="chat-message bot">
     <div class="avatar">
-        <img src="https://t4.ftcdn.net/jpg/05/79/83/69/360_F_579836914_yo2WTNUIDANJPGGvhXSGMRc6bfCmUGM7.jpg" style="max-height: 78px; max-width: 78px; border-radius: 50%; object-fit: cover;">
+        <img src="https://www.cognodata.com/wp-content/uploads/2018/08/imageedit_67_3885990019-e1548680726823.jpg">
     </div>
     <div class="message">{{MSG}}</div>
 </div>
@@ -37,8 +37,8 @@ bot_template = '''
 user_template = '''
 <div class="chat-message user">
     <div class="avatar">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuu4n2VgSLyv70udhzHGObeyK8CrxZi9YBNQ&s">
+        <img src="https://www.shareicon.net/data/512x512/2017/01/06/868320_people_512x512.png">
     </div>    
     <div class="message">{{MSG}}</div>
 </div>
-'''
+''' 

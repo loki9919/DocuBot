@@ -18,18 +18,19 @@ from langchain_community.vectorstores import FAISS
 # Load environment variables from .env
 load_dotenv()
 
+# Retrieve API key for Llama Cloud from environment variables
 LLAMA_CLOUD_API_KEY = os.getenv("LLAMA_CLOUD_API_KEY")
 
 # Create media directory if it doesn't exist
 MEDIA_DIR = os.path.join(os.getcwd(), 'media')
 os.makedirs(MEDIA_DIR, exist_ok=True)
 
-# Configure the system prompt
+# Configure the system prompt for the LLM
 llmtemplate = """[INST]
 As an AI, provide accurate and relevant information based on the provided document.
 Your responses should adhere to the following guidelines:
 -----
-Guidelines
+Guidelines# Retrieve API key for Llama Cloud from environment variables
 -----
 - Answer the question only based on the provided documents.
 - Be direct and factual. Begin your response without using introductory phrases like yes, no etc.
@@ -43,11 +44,11 @@ Question: {question}
 [/INST]
 """
 
-# Data extraction
+# Data extraction from PDFs
 def prepare_docs(pdf_files):
     """
-    Llama Parse API to extract the content and metadata from the PDF files.
-    To fix the document used in the chat the extracted content and metadata are then written to separate files in the script directory.
+    Use Llama Parse API to extract the content and metadata from the PDF files.
+    The extracted content and metadata are written to separate files in the script directory.    
     """
     parser = LlamaParse(
         api_key=LLAMA_CLOUD_API_KEY,
@@ -66,10 +67,10 @@ def prepare_docs(pdf_files):
 
     return "\n\n".join(contents)
 
-# Chunking the documents
+# Chunking the documents into smaller parts
 def get_text_chunks(content):
     """
-    Chunking component, using MarkdownHeaderSplitter and the RecursiveCharacterTextSplitter from Langchain
+    Chunk the document using MarkdownHeaderTextSplitter and RecursiveCharacterTextSplitter from Langchain
     """
     headers_to_split_on = [
         ("#", "Header 1"),
@@ -90,10 +91,10 @@ def get_text_chunks(content):
     print(f"Split documents into {len(split_docs)} passages")
     return split_docs
 
-# Ingest data
+# Ingest data into the vector store
 def ingest_into_vectordb(split_docs):
     """
-    Data ingestion into vectordb
+    Ingest the split document chunks into a vector database using HuggingFaceEmbeddings and FAISS
     """
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2",
@@ -105,8 +106,11 @@ def ingest_into_vectordb(split_docs):
     print(f"Vector db is ready!")
     return db
 
-# Conversation
+# Setup the conversation chain
 def get_conversation_chain(vectordb):
+    """
+    Setup a conversational retrieval chain using the LLM and the vector database
+    """
     llama_llm = Ollama(model="llama3", base_url="http://34.71.171.183:11434/")
     retriever = vectordb.as_retriever()
     prompt = PromptTemplate.from_template(llmtemplate)
@@ -125,6 +129,7 @@ def get_conversation_chain(vectordb):
     print("Conversational Chain created for the LLM using the vector store")
     return conversation_chain
 
+# Handle user input and generate responses
 def handle_userinput(user_question):
     """
     Handle the user input
@@ -145,11 +150,13 @@ def handle_userinput(user_question):
                 bot_template.replace("{{MSG}}", message.content), unsafe_allow_html=True
             )
 
+# Introduction section for the app
 def intro_section():
     st.title("DocuBot :books:")
     st.image("https://wgmimedia.com/wp-content/uploads/2023/05/How-to-Talk-to-a-PDF-With-AI.jpg", use_column_width=True)
     st.write("Imagine effortlessly navigating through your PDF documents as if you were having a conversation. With DocuBot, you can now interact with your documents using natural language queries. Simply ask questions about the content, and receive detailed, contextually relevant answers directly from the document. This innovative approach transforms static PDFs into dynamic, responsive tools that enhance your understanding and streamline your workflow.")
 
+# Features section of the app
 def feature_section():
     st.header("Key Features")
 
@@ -176,6 +183,7 @@ def feature_section():
         st.image(feature["image"], use_column_width=True)
         st.write(feature["description"])
 
+# About section of the app
 def about_section():
     st.header("About the Project")
     st.write("""
@@ -193,11 +201,16 @@ def about_section():
     st.write("[GitHub](https://github.com/loki9919)")
     st.write("[Project Repository](https://github.com/loki9919/DocuBot)")
 
+# Main function to run the Streamlit app
 def main():
+    # Load environment variables
     load_dotenv()
+    # Set page configuration
     st.set_page_config(page_title="DocuBot", page_icon="images/logo.png", layout="wide")
+    # Apply custom CSS
     st.write(css, unsafe_allow_html=True)
 
+    # Initialize session state variables
     if "conversation" not in st.session_state:
         st.session_state.conversation = None
     if "chat_history" not in st.session_state:
@@ -206,12 +219,15 @@ def main():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "Intro"
 
+    # Define navigation pages
     pages = ["Intro", "Features", "About", "DocuBot"]
     selected_page = st.sidebar.selectbox("Navigate", pages)
 
+    # Update the current page based on user selection
     if selected_page:
         st.session_state.current_page = selected_page
 
+    # Display the selected page
     if st.session_state.current_page == "Intro":
         intro_section()
     elif st.session_state.current_page == "Features":
@@ -222,9 +238,11 @@ def main():
         st.header("DocuBot 📚")
         user_question = st.text_input("Ask a question about your documents. Please be patient because the LLM is running on a CPU. ")
 
+        # Handle user input if a question is asked
         if user_question:
             handle_userinput(user_question)
 
+        # Sidebar for uploading and processing documents
         with st.sidebar:
             st.subheader("Your documents")
             pdf_docs = st.file_uploader(
@@ -240,5 +258,6 @@ def main():
                     # Create conversation chain
                     st.session_state.conversation = get_conversation_chain(vectorstore)
 
+# Run the main function if the script is executed
 if __name__ == "__main__":
     main()

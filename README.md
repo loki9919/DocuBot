@@ -18,7 +18,7 @@ The application follows these steps to provide responses to your questions:
 
 ## Dependencies and Installation
 ----------------------------
-To install the ALXGPT Chat App, please follow these steps:
+To install the DocuBot Chat App, please follow these steps:
 
 1. Clone the repository to your local machine:
    ```bash
@@ -30,14 +30,14 @@ To install the ALXGPT Chat App, please follow these steps:
    pip install -r requirements.txt
    
 
-3. Obtain an API key from OpenAI and also for Llamaparser add it to the .env file in the project directory.
+3. Obtain an API key from Llamaparser add it to the .env file in the project directory.
 commandline
     ```bash
     LLAMA_CLOUD_API_KEY=yout_secrit_api_key
 
 ## Usage
 -----
-To use the ALXGPT Chat App, follow these steps:
+To use the DocuBot Chat App, follow these steps:
 
 1. Ensure that you have installed the required dependencies and add your keys to .env file.
 

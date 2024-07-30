@@ -3,25 +3,29 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+# Ignore the media directory, used for storing PDF's
 media/
+
+# Ignore vectorstore directory, used for storing vector database files
 vectorstore/
 
-# Environment variables
+# Ignore environment variables file
 .env
 
-# JavaScript specific ignores
+# Ignore JavaScript dependencies and build outputs
 node_modules/
 dist/
 build/
 
-# Ignore IDE specific files
+# Ignore IDE specific files and directories
 .vscode/
 .idea/
 
-# Log files
+# Ignore log files
 *.log
 
-# System files
+# Ignore macOS system file
 .DS_Store
 
+# Ignore alxgpt directory
 alxgpt
